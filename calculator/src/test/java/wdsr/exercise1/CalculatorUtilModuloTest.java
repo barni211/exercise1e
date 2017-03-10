@@ -1,6 +1,12 @@
 package wdsr.exercise1;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,13 +24,25 @@ public class CalculatorUtilModuloTest {
 		calcUtil = new CalculatorUtil(calculator);
 	}
 
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testModuloByZero() {
-		fail("Not yet implemented");
+		doThrow(new IllegalArgumentException()).when(calculator).modulo(anyInt(), eq(0));
+		
+		calculator.modulo(3, 0);
+		
+		// when
+		//
 	}
 
 	@Test
 	public void testModulo16By4() {
-		fail("Not yet implemented");
+		doReturn(0).when(calculator).modulo(anyInt(), anyInt());
+
+		// when
+		String result = calcUtil.getModuloText(16, 4);
+
+		// then
+		assertEquals("16 % 4 = 0", result);
+		verify(calculator).modulo(anyInt(), anyInt()); // check if our calculator mock was really invoked.
 	}
 }
